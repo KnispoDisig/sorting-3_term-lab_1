@@ -1,0 +1,3 @@
+C:/Users/fell2/CLionProjects/sorting-lab-1/cmake-build-debug/CMakeFiles/sorting_lab_1.dir
+C:/Users/fell2/CLionProjects/sorting-lab-1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/fell2/CLionProjects/sorting-lab-1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
