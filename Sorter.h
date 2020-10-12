@@ -15,8 +15,7 @@ using namespace std;
 template<class T>
 class Sorter {
 private:
-    virtual bool compare(T item1, T item2) = 0;            // if (compare == 1) item1 >= item2
-                                                          // else item1 < item2
+    virtual int compare(T item1, T item2) = 0;
 public:
     virtual void sort(Sequence<T> *list) = 0;              // main sorting func; returns the duration of sorting
                                                           // and count of comparisons
@@ -25,9 +24,9 @@ public:
 template<class T>
 class BubbleSorter : public Sorter<T> {
 private:
-    bool (*comparison)(T, T);
+    int (*comparison)(T, T);
 
-    bool compare(T item1, T item2) {
+    int compare(T item1, T item2) {
         return (*comparison)(item1, item2);
     }
 
@@ -37,7 +36,7 @@ public:
         comparison = Ordering::int_ascending;
     }
 
-    explicit BubbleSorter(bool (*comparisonFunction)(T, T)) {
+    explicit BubbleSorter(int (*comparisonFunction)(T, T)) {
         comparison = comparisonFunction;
     }
 
@@ -52,7 +51,7 @@ public:
 
         for (int i = 0; i < list->getLength() - 1; i++) {
             for (int j = i + 1; j < list->getLength(); j++) {
-                if (compare(list->get(i), list->get(j))) {
+                if (compare(list->get(i), list->get(j)) == 1) {
                     T temp = list->get(i);
                     list->set(i, list->get(j));
                     list->set(j, temp);
@@ -71,11 +70,11 @@ public:
 template<class T>
 class MergeSorter : public Sorter<T> {
 private:
-    bool (*comparison)(T, T);
+    int (*comparison)(T, T);
 
     pair<int, int> sort_info;
 
-    bool compare(T item1, T item2) {
+    int compare(T item1, T item2) {
         return (*comparison)(item1, item2);
     }
 
@@ -88,7 +87,7 @@ private:
         countOfComparisons = 0;
 
         while (i <= mid && j <= high) {
-            if (!compare(seq->get(i), seq->get(j))) {
+            if (compare(seq->get(i), seq->get(j)) != 1) {
                 tempArr[k] = seq->get(i);
                 k++;
                 i++;
@@ -139,7 +138,7 @@ public:
         comparison = Ordering::int_ascending;
     }
 
-    explicit MergeSorter(bool (*comparisonFunction)(T, T)) {
+    explicit MergeSorter(int (*comparisonFunction)(T, T)) {
         comparison = comparisonFunction;
     }
 
@@ -161,11 +160,11 @@ public:
 template<class T>
 class QuickSorter : public Sorter<T> {
 private:
-    bool (*comparison)(T, T);
+    int (*comparison)(T, T);
 
     pair<int, int> sort_info;
 
-    bool compare(T item1, T item2) {
+    int compare(T item1, T item2) {
         return (*comparison)(item1, item2);
     }
 
@@ -173,17 +172,17 @@ private:
         int countOfComparisons = 0;
         int i = left;
         int j = right;
-        int pivot = sequence->get((left + right) / 2);
+        T pivot = sequence->get((left + right) / 2);
 
         while (i <= j) {
-            while (sequence->get(i) < pivot) {
+            while (compare(sequence->get(i), pivot) == -1) {
                 countOfComparisons++;
                 i++;
             }
 
-            while (sequence->get(j) > pivot) {
+            while (compare(sequence->get(i), pivot) == 1) {
                 countOfComparisons++;
-                j--;
+                i++;
             }
 
             if (i <= j) {
@@ -198,6 +197,7 @@ private:
         if (j > left) {
             countOfComparisons += sortHelper(sequence, left, j);
         }
+
         if (i < right) {
             countOfComparisons += sortHelper(sequence, i, right);
         }
@@ -210,7 +210,7 @@ public:
         comparison = Ordering::int_ascending;
     }
 
-    explicit QuickSorter(bool (*comparisonFunction)(T, T)) {
+    explicit QuickSorter(int (*comparisonFunction)(T, T)) {
         comparison = comparisonFunction;
     }
 

@@ -107,7 +107,7 @@ public:
         auto *quickSorter = new QuickSorter<int>();
 
         cout << "*** TESTING ARRAY ***\n";
-        for (int sorterNum = 2; sorterNum < 3; sorterNum++) {
+        for (int sorterNum = 0; sorterNum < 3; sorterNum++) {
             if (sorterNum == 0) {
                 cout << "** BUBBLE SORT **\n";
                 for (int count = INITIAL_ARRAY_COUNT; count < MAX_ARRAY_COUNT; count += ARRAY_STEP) {
@@ -136,7 +136,7 @@ public:
         }
 
         cout << "*** TESTING LIST ***\n";
-        for (int sorterNum = 2; sorterNum < 3; sorterNum++) {
+        for (int sorterNum = 1; sorterNum < 3; sorterNum++) {
             if (sorterNum == 0) {
                 cout << "** BUBBLE SORT **\n";
                 for (int count = INITIAL_LIST_COUNT; count < MAX_LIST_COUNT; count += LIST_STEP) {
